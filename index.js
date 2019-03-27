@@ -3,13 +3,9 @@ var ctx = canvas.getContext('2d');
 
 ctx.fillStyle="green";
 
-drawSegment(20, {x: 30, y: 40}, 'vertical');
-drawSegment(20, {x: 90, y: 40}, 'vertical');
-drawSegment(20, {x: 30, y: 100}, 'vertical');
-drawSegment(20, {x: 90, y: 100}, 'vertical');
-drawSegment(20, {x: 40, y: 30}, 'horizontal');
-drawSegment(20, {x: 40, y: 90}, 'horizontal');
-drawSegment(20, {x: 40, y: 150}, 'horizontal');
+drawIndicator(20, {x: 20, y: 20});
+drawIndicator(20, {x: 140, y: 20});
+drawIndicator(20, {x: 260, y: 20});
 
 function drawSegment(rectSize, beginPoint, direction) {
 	var axisRatio = {};
@@ -43,4 +39,23 @@ function drawSegment(rectSize, beginPoint, direction) {
 	ctx.lineTo(endPoint.x - (rectSize / 2) * axisRatio.x, endPoint.y - (rectSize / 2) * axisRatio.y);
 	ctx.fill();
 	ctx.closePath();
+}
+
+function drawIndicator(baseSize, basePoint) {
+	var beginPoints = [];
+	beginPoints.push({x: basePoint.x + baseSize / 2, y: basePoint.y + baseSize});
+	beginPoints.push({x: basePoint.x + baseSize / 2 + baseSize * 3, y: basePoint.y + baseSize});
+	beginPoints.push({x: basePoint.x + baseSize / 2, y: basePoint.y + baseSize + baseSize * 3});
+	beginPoints.push({x: basePoint.x + baseSize / 2 + baseSize * 3, y: basePoint.y + baseSize + baseSize * 3});
+	beginPoints.push({x: basePoint.x + baseSize, y: basePoint.y + baseSize / 2});
+	beginPoints.push({x: basePoint.x + baseSize, y: basePoint.y + baseSize / 2 + baseSize * 3});
+	beginPoints.push({x: basePoint.x + baseSize, y: basePoint.y + baseSize / 2 + baseSize * 6});
+
+	drawSegment(baseSize, beginPoints[0], 'vertical');
+	drawSegment(baseSize, beginPoints[1], 'vertical');
+	drawSegment(baseSize, beginPoints[2], 'vertical');
+	drawSegment(baseSize, beginPoints[3], 'vertical');
+	drawSegment(baseSize, beginPoints[4], 'horizontal');
+	drawSegment(baseSize, beginPoints[5], 'horizontal');
+	drawSegment(baseSize, beginPoints[6], 'horizontal');
 }
