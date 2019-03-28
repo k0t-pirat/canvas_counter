@@ -2,6 +2,7 @@ var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
 ctx.fillStyle="green";
+ctx.strokeStyle = "green";
 
 drawIndicator(20, {x: 20, y: 20});
 drawIndicator(20, {x: 140, y: 20});
@@ -24,21 +25,15 @@ function drawSegment(rectSize, beginPoint, direction) {
 		endPoint.y = beginPoint.y;
 	}
 
-	ctx.fillRect(beginPoint.x + (rectSize / 2) * axisRatio.x, beginPoint.y + (rectSize / 2) * axisRatio.y, rectSize, rectSize);
-
 	ctx.beginPath();
-	ctx.moveTo(beginPoint.x, beginPoint.y);
+	ctx.moveTo(beginPoint.x + rectSize / 2, beginPoint.y + rectSize / 2);
+	ctx.lineTo(beginPoint.x, beginPoint.y);
 	ctx.lineTo(beginPoint.x + (rectSize / 2) * axisRatio.x, beginPoint.y + (rectSize / 2) * axisRatio.y);
-	ctx.lineTo(beginPoint.x + rectSize / 2, beginPoint.y + rectSize / 2);
-	ctx.fill();
-	ctx.closePath();
-
-	ctx.beginPath();
-	ctx.moveTo(endPoint.x, endPoint.y);
 	ctx.lineTo(endPoint.x - rectSize / 2, endPoint.y - rectSize / 2);
+	ctx.lineTo(endPoint.x, endPoint.y);
 	ctx.lineTo(endPoint.x - (rectSize / 2) * axisRatio.x, endPoint.y - (rectSize / 2) * axisRatio.y);
-	ctx.fill();
 	ctx.closePath();
+	ctx.stroke();
 }
 
 function drawIndicator(baseSize, basePoint) {
