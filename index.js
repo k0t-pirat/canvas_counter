@@ -1,14 +1,16 @@
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
+var indicatorArray = [];
+
 ctx.fillStyle="green";
 ctx.strokeStyle = "green";
 
-drawIndicator(20, {x: 20, y: 20});
-drawIndicator(20, {x: 140, y: 20});
-drawIndicator(20, {x: 260, y: 20});
+drawBlankIndicator(20, {x: 20, y: 20}, 3);
+drawBlankIndicator(20, {x: 140, y: 20}, 2);
+drawBlankIndicator(20, {x: 260, y: 20}, 1);
 
-function drawSegment(rectSize, beginPoint, direction) {
+function drawSegment(rectSize, beginPoint, direction, drawType) {
 	var axisRatio = {};
 	var endPoint = {};
 
@@ -33,10 +35,10 @@ function drawSegment(rectSize, beginPoint, direction) {
 	ctx.lineTo(endPoint.x, endPoint.y);
 	ctx.lineTo(endPoint.x - (rectSize / 2) * axisRatio.x, endPoint.y - (rectSize / 2) * axisRatio.y);
 	ctx.closePath();
-	ctx.stroke();
+	ctx[drawType]();
 }
 
-function drawIndicator(baseSize, basePoint) {
+function drawIndicator(baseSize, basePoint, drawType, number) {
 	var beginPoints = [];
 	beginPoints.push({x: basePoint.x + baseSize / 2, y: basePoint.y + baseSize});
 	beginPoints.push({x: basePoint.x + baseSize / 2 + baseSize * 3, y: basePoint.y + baseSize});
@@ -46,11 +48,26 @@ function drawIndicator(baseSize, basePoint) {
 	beginPoints.push({x: basePoint.x + baseSize, y: basePoint.y + baseSize / 2 + baseSize * 3});
 	beginPoints.push({x: basePoint.x + baseSize, y: basePoint.y + baseSize / 2 + baseSize * 6});
 
-	drawSegment(baseSize, beginPoints[0], 'vertical');
-	drawSegment(baseSize, beginPoints[1], 'vertical');
-	drawSegment(baseSize, beginPoints[2], 'vertical');
-	drawSegment(baseSize, beginPoints[3], 'vertical');
-	drawSegment(baseSize, beginPoints[4], 'horizontal');
-	drawSegment(baseSize, beginPoints[5], 'horizontal');
-	drawSegment(baseSize, beginPoints[6], 'horizontal');
+	if (['all', 0, 4, 5, 6, 8, 9].includes(number)) drawSegment(baseSize, beginPoints[0], 'vertical', drawType);
+	if (['all', 0, 1, 2, 3, 4, 7, 8, 9].includes(number)) drawSegment(baseSize, beginPoints[1], 'vertical', drawType);
+	if (['all', 0, 2, 6, 8].includes(number)) drawSegment(baseSize, beginPoints[2], 'vertical', drawType);
+	if (['all', 0, 1, 3, 4, 5, 7, 8, 9].includes(number)) drawSegment(baseSize, beginPoints[3], 'vertical', drawType);
+	if (['all', 0, 2, 3, 5, 6, 7, 8, 9].includes(number)) drawSegment(baseSize, beginPoints[4], 'horizontal', drawType);
+	if (['all', 2, 3, 4, 5, 6, 8, 9].includes(number)) drawSegment(baseSize, beginPoints[5], 'horizontal', drawType);
+	if (['all', 0, 2, 3, 5, 6, 8, 9].includes(number)) drawSegment(baseSize, beginPoints[6], 'horizontal', drawType);
 }
+
+function drawBlankIndicator(baseSize, basePoint, index) {
+	drawIndicator(baseSize, basePoint, 'stroke', 'all');
+	indicatorArray.push({baseSize: baseSize, basePoint: basePoint, index: index});
+}
+
+function drawDigit(digit, indicatorIndex) {
+	var indicator = indicatorArray.find(function(currentIndicator) {
+		return currentIndicator.index === indicatorIndex;
+	});
+	drawIndicator(indicator.baseSize, indicator.basePoint, 'fill', digit);
+}
+drawDigit(0, 3);
+drawDigit(9, 2);
+drawDigit(3, 1);
