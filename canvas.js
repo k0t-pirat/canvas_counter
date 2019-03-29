@@ -72,10 +72,18 @@ function drawNumber(number) {
 	refreshCanvas();
 	var n = parseInt(number) || 0;
 	var value = [];
+<<<<<<< HEAD
 	do {
 		value.push(n % 10);
 		n = Math.floor(n / 10);
 	} while (n !== 0);
+=======
+	if (n === 0) value.push(n);
+	while (n !== 0) {
+		value.push(n % 10);
+		n = Math.floor(n / 10);
+	};
+>>>>>>> d20141cadc24ab85c8293c5d6a513a6798930cb1
 
 	if (value.length > indicatorArray.length) {
 		for (var i = 0; i < indicatorArray.length; i++) {
