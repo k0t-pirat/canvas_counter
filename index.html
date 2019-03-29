@@ -7,14 +7,21 @@
 		#canvas {
 			background-color: gainsboro;
 		}
+		#setNumberLabel {
+			display: block;
+		}
 	</style>
 </head>
 <body>
 	<div>
 		<p>Here is the canvas:</p>
 		<canvas id="canvas" width="500" height="300"></canvas>
+		<label id="setNumberLabel">
+			<span>Enter your value:</span>
+			<input id="setNumber" type="text">
+		</label>
 	</div>
-	<script src="index.js">
-	</script>
+	<script src="canvas.js"></script>
+	<script src="event.js"></script>
 </body>
 </html>

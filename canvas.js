@@ -3,8 +3,8 @@ var ctx = canvas.getContext('2d');
 
 var indicatorArray = [];
 
-ctx.fillStyle="green";
-ctx.strokeStyle = "green";
+ctx.fillStyle="yellow";
+ctx.strokeStyle = "gray";
 
 drawBlankIndicator(20, {x: 20, y: 20}, 3);
 drawBlankIndicator(20, {x: 140, y: 20}, 2);
@@ -12,6 +12,7 @@ drawBlankIndicator(20, {x: 260, y: 20}, 1);
 
 drawNumber(793);
 drawNumber(4);
+drawNumber(72);
 
 function drawSegment(rectSize, beginPoint, direction, drawType) {
 	var axisRatio = {};
@@ -54,7 +55,7 @@ function drawIndicator(baseSize, basePoint, drawType, digit) {
 	if (['all', 0, 4, 5, 6, 8, 9].includes(digit)) drawSegment(baseSize, beginPoints[0], 'vertical', drawType);
 	if (['all', 0, 1, 2, 3, 4, 7, 8, 9].includes(digit)) drawSegment(baseSize, beginPoints[1], 'vertical', drawType);
 	if (['all', 0, 2, 6, 8].includes(digit)) drawSegment(baseSize, beginPoints[2], 'vertical', drawType);
-	if (['all', 0, 1, 3, 4, 5, 7, 8, 9].includes(digit)) drawSegment(baseSize, beginPoints[3], 'vertical', drawType);
+	if (['all', 0, 1, 3, 4, 5, 6, 7, 8, 9].includes(digit)) drawSegment(baseSize, beginPoints[3], 'vertical', drawType);
 	if (['all', 0, 2, 3, 5, 6, 7, 8, 9].includes(digit)) drawSegment(baseSize, beginPoints[4], 'horizontal', drawType);
 	if (['all', 2, 3, 4, 5, 6, 8, 9].includes(digit)) drawSegment(baseSize, beginPoints[5], 'horizontal', drawType);
 	if (['all', 0, 2, 3, 5, 6, 8, 9].includes(digit)) drawSegment(baseSize, beginPoints[6], 'horizontal', drawType);
@@ -73,13 +74,20 @@ function drawDigit(digit, indicatorIndex) {
 }
 
 function drawNumber(number) {
+	refreshCanvas();
 	var value = {
 		hundreds: Math.floor(number / 100),
 		tens: Math.floor(number / 10) - Math.floor(number / 100) * 10,
 		ones: number - Math.floor(number / 10) * 10
 	}
-	console.log(value.hundreds, value.tens, value.ones)
 	drawDigit(value.hundreds, 3);
 	drawDigit(value.tens, 2);
 	drawDigit(value.ones, 1);
+}
+
+function refreshCanvas() {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	drawBlankIndicator(20, {x: 20, y: 20}, 3);
+	drawBlankIndicator(20, {x: 140, y: 20}, 2);
+	drawBlankIndicator(20, {x: 260, y: 20}, 1);
 }
