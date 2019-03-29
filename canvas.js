@@ -6,13 +6,7 @@ var indicatorArray = [];
 ctx.fillStyle="yellow";
 ctx.strokeStyle = "gray";
 
-drawBlankIndicator(20, {x: 20, y: 20}, 3);
-drawBlankIndicator(20, {x: 140, y: 20}, 2);
-drawBlankIndicator(20, {x: 260, y: 20}, 1);
-
-drawNumber(793);
-drawNumber(4);
-drawNumber(72);
+refreshCanvas();
 
 function drawSegment(rectSize, beginPoint, direction, drawType) {
 	var axisRatio = {};
@@ -57,11 +51,12 @@ function drawIndicator(baseSize, basePoint, drawType, digit) {
 	if (['all', 0, 2, 6, 8].includes(digit)) drawSegment(baseSize, beginPoints[2], 'vertical', drawType);
 	if (['all', 0, 1, 3, 4, 5, 6, 7, 8, 9].includes(digit)) drawSegment(baseSize, beginPoints[3], 'vertical', drawType);
 	if (['all', 0, 2, 3, 5, 6, 7, 8, 9].includes(digit)) drawSegment(baseSize, beginPoints[4], 'horizontal', drawType);
-	if (['all', 2, 3, 4, 5, 6, 8, 9].includes(digit)) drawSegment(baseSize, beginPoints[5], 'horizontal', drawType);
+	if (['all', 'dash', 2, 3, 4, 5, 6, 8, 9].includes(digit)) drawSegment(baseSize, beginPoints[5], 'horizontal', drawType);
 	if (['all', 0, 2, 3, 5, 6, 8, 9].includes(digit)) drawSegment(baseSize, beginPoints[6], 'horizontal', drawType);
 }
 
-function drawBlankIndicator(baseSize, basePoint, index) {
+function drawBlankIndicator(baseSize, basePoint) {
+	var index = indicatorArray.length;
 	drawIndicator(baseSize, basePoint, 'stroke', 'all');
 	indicatorArray.push({baseSize: baseSize, basePoint: basePoint, index: index});
 }
@@ -75,19 +70,26 @@ function drawDigit(digit, indicatorIndex) {
 
 function drawNumber(number) {
 	refreshCanvas();
+	if (number >= 1000) {
+		drawDigit('dash', 0);
+		drawDigit('dash', 1);
+		drawDigit('dash', 2);
+		return;
+	}
 	var value = {
 		hundreds: Math.floor(number / 100),
 		tens: Math.floor(number / 10) - Math.floor(number / 100) * 10,
 		ones: number - Math.floor(number / 10) * 10
-	}
-	drawDigit(value.hundreds, 3);
-	drawDigit(value.tens, 2);
-	drawDigit(value.ones, 1);
+	};
+	if (value.hundreds) drawDigit(value.hundreds, 0);
+	if (value.tens) drawDigit(value.tens, 1);
+	drawDigit(value.ones, 2);
 }
 
 function refreshCanvas() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	drawBlankIndicator(20, {x: 20, y: 20}, 3);
-	drawBlankIndicator(20, {x: 140, y: 20}, 2);
-	drawBlankIndicator(20, {x: 260, y: 20}, 1);
+	indicatorArray = [];
+	drawBlankIndicator(20, {x: 20, y: 20});
+	drawBlankIndicator(20, {x: 140, y: 20});
+	drawBlankIndicator(20, {x: 260, y: 20});
 }
