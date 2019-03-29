@@ -70,20 +70,23 @@ function drawDigit(digit, indicatorIndex) {
 
 function drawNumber(number) {
 	refreshCanvas();
-	if (number >= 1000) {
-		drawDigit('dash', 0);
-		drawDigit('dash', 1);
-		drawDigit('dash', 2);
+	var n = parseInt(number) || 0;
+	var value = [];
+	do {
+		value.push(n % 10);
+		n = Math.floor(n / 10);
+	} while (n !== 0);
+
+	if (value.length > indicatorArray.length) {
+		for (var i = 0; i < indicatorArray.length; i++) {
+			drawDigit('dash', indicatorArray.length - i - 1);
+		}
 		return;
 	}
-	var value = {
-		hundreds: Math.floor(number / 100),
-		tens: Math.floor(number / 10) - Math.floor(number / 100) * 10,
-		ones: number - Math.floor(number / 10) * 10
-	};
-	if (value.hundreds) drawDigit(value.hundreds, 0);
-	if (value.tens) drawDigit(value.tens, 1);
-	drawDigit(value.ones, 2);
+
+	for (var i = 0; i < indicatorArray.length; i++) {
+		drawDigit(value[i], indicatorArray.length - i - 1);
+	}
 }
 
 function refreshCanvas() {
@@ -92,4 +95,5 @@ function refreshCanvas() {
 	drawBlankIndicator(20, {x: 20, y: 20});
 	drawBlankIndicator(20, {x: 140, y: 20});
 	drawBlankIndicator(20, {x: 260, y: 20});
+	drawBlankIndicator(20, {x: 380, y: 20});
 }
