@@ -7,7 +7,7 @@
 		#canvas {
 			background-color: gainsboro;
 		}
-		#setNumberLabel {
+		.standard-label {
 			display: block;
 		}
 	</style>
@@ -16,9 +16,17 @@
 	<div>
 		<p>Here is the canvas:</p>
 		<canvas id="canvas" width="1000" height="450"></canvas>
-		<label id="setNumberLabel">
+		<label id="setNumberLabel" class="standard-label">
 			<span>Enter your value:</span>
-			<input id="setNumber" type="text">
+			<input id="setNumber" type="number">
+		</label>
+		<label id="setIndicatorsAmountLabel" class="standard-label">
+			<span>Enter amount of indicators:</span>
+			<input id="setIndicatorsAmount" type="number" data-indicators-amount="3">
+		</label>
+		<label id="" class="standard-label">
+			<span>Enter base size of indicators:</span>
+			<input id="setIndicatorBaseSize" type="number" data-base-size="24">
 		</label>
 	</div>
 	<script src="canvas.js"></script>

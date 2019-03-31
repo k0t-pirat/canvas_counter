@@ -2,11 +2,14 @@ var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
 var indicatorArray = [];
+var numberHolderSize = 5;
+var indicatorBaseSize = 24;
 
 ctx.fillStyle="yellow";
 ctx.strokeStyle = "gray";
 
-refreshCanvas();
+clearCanvas();
+drawNumberHolder(indicatorBaseSize, numberHolderSize);
 
 function drawSegment(rectSize, beginPoint, direction, drawType) {
 	var axisRatio = {};
@@ -75,7 +78,6 @@ function drawNumberHolder(baseSize, indicatorCount) {
 }
 
 function drawNumber(number) {
-	refreshCanvas();
 	var n = Math.abs(parseInt(number)) || 0;
 	var value = [];
 	do {
@@ -95,8 +97,7 @@ function drawNumber(number) {
 	}
 }
 
-function refreshCanvas() {
+function clearCanvas() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	indicatorArray = [];
-	drawNumberHolder(24, 5);
 }
