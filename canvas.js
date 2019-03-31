@@ -73,6 +73,7 @@ function drawDigit(digit, indicatorIndex) {
 
 function drawNumberHolder(baseSize, indicatorCount) {
 	for (var i = 0; i < indicatorCount; i++) {
+		if (baseSize + baseSize * 6 * (i + 1) > canvas.width) break;
 		drawDigitHolder(baseSize, {x: baseSize + baseSize * 6 * i, y: baseSize});
 	}
 }
