@@ -55,7 +55,7 @@ function drawIndicator(baseSize, basePoint, drawType, digit) {
 	if (['all', 0, 2, 3, 5, 6, 8, 9].includes(digit)) drawSegment(baseSize, beginPoints[6], 'horizontal', drawType);
 }
 
-function drawBlankIndicator(baseSize, basePoint) {
+function drawDigitHolder(baseSize, basePoint) {
 	var index = indicatorArray.length;
 	drawIndicator(baseSize, basePoint, 'stroke', 'all');
 	indicatorArray.push({baseSize: baseSize, basePoint: basePoint, index: index});
@@ -68,9 +68,15 @@ function drawDigit(digit, indicatorIndex) {
 	drawIndicator(indicator.baseSize, indicator.basePoint, 'fill', digit);
 }
 
+function drawNumberHolder(baseSize, indicatorCount) {
+	for (var i = 0; i < indicatorCount; i++) {
+		drawDigitHolder(baseSize, {x: baseSize + baseSize * 6 * i, y: baseSize});
+	}
+}
+
 function drawNumber(number) {
 	refreshCanvas();
-	var n = parseInt(number) || 0;
+	var n = Math.abs(parseInt(number)) || 0;
 	var value = [];
 	do {
 		value.push(n % 10);
@@ -92,8 +98,5 @@ function drawNumber(number) {
 function refreshCanvas() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	indicatorArray = [];
-	drawBlankIndicator(20, {x: 20, y: 20});
-	drawBlankIndicator(20, {x: 140, y: 20});
-	drawBlankIndicator(20, {x: 260, y: 20});
-	drawBlankIndicator(20, {x: 380, y: 20});
+	drawNumberHolder(24, 5);
 }
